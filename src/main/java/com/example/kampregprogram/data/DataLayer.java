@@ -60,7 +60,7 @@ public class DataLayer {
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setString(1, "Ikast FC");
+            statement.setString(1, "Ikhuhui");
             statement.setInt(2, 3);
             statement.setInt(3, 3);
             statement.setString(4, "Ikast");
