@@ -5,12 +5,16 @@ public class Team {
     private String name;
     private int numberOfPlayers;
     private int point;
-    private String teamCity
+    private String teamCity;
 
     // Default Constructor
-    Public Team(){
-
-}
+    public Team(){
+        this.id = 0;
+        this.name = "";
+        this.numberOfPlayers = 0;
+        this.point = 0;
+        this.teamCity = "";
+    }
 // Set Constructor
     public Team(int id, String name, int numberOfPlayers, int point, String teamCity) {
         this.id = id;
@@ -22,7 +26,7 @@ public class Team {
 
     @Override
     public String toString() {
-        return "Team{" +
+        return "Team {" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", numberOfPlayers=" + numberOfPlayers +
@@ -33,13 +37,13 @@ public class Team {
 
 
 // Getters
-    public int getId() {        return id;    }
-    public String getName() {        return name;    }
-    public int getNumberOfPlayers() {        return numberOfPlayers;    }
-    public String getTeamCity() {        return teamCity;    }
+    public int getId() {return id;}
+    public String getName() {return name;}
+    public int getNumberOfPlayers() {return numberOfPlayers;}
+    public String getTeamCity() {return teamCity;}
 
 // Setters
-       public void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
     public void setName(String name) {
