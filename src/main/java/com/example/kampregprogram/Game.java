@@ -1,10 +1,13 @@
 package com.example.kampregprogram;
 
+import java.sql.Timestamp;
+
 public class Game {
     private int id, homeTeamID, homeScore,awayTeamID, awayScore;
-    private String matchDate;
+    private Timestamp matchDate;
 
-    public Game (int id, int homeTeamID, int homeScore, int awayTeamID, int awayScore, String matchDate) {
+
+    public Game (int id, int homeTeamID, int homeScore, int awayTeamID, int awayScore, Timestamp matchDate) {
         this.id = id;
         this.homeTeamID = homeTeamID;
         this.homeScore = homeScore;
@@ -41,7 +44,7 @@ public class Game {
     public void setId(int id) {
         this.id = id;
     }
-    public void setMatchDate(String matchDate) {
+    public void setMatchDate(Timestamp matchDate) {
         this.matchDate = matchDate;
     }
 
@@ -61,7 +64,7 @@ public class Game {
     public int getId() {
         return id;
     }
-    public String getMatchDate() {
+    public Timestamp getMatchDate() {
         return matchDate;
     }
 }
