@@ -7,14 +7,7 @@ public class Team {
     private int point;
     private String teamCity;
 
-    // Default Constructor
-    public Team(){
-        this.id = 0;
-        this.name = "";
-        this.numberOfPlayers = 0;
-        this.point = 0;
-        this.teamCity = "";
-    }
+
 // Set Constructor
     public Team(int id, String name, int numberOfPlayers, int point, String teamCity) {
         this.id = id;
