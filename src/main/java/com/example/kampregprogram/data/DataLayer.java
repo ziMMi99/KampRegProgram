@@ -22,7 +22,6 @@ public class DataLayer {
         }
         catch (ClassNotFoundException e) {
             System.out.println("Could not load JDBC driver!");
-
             return false;
         }
     }
@@ -49,7 +48,6 @@ public class DataLayer {
         catch (SQLException e) {
             System.out.println("Could not connect to database: " + databaseName);
             System.out.println(e.getMessage());
-
             return false;
         }
     }
@@ -64,7 +62,6 @@ public class DataLayer {
             statement.setInt(2, 3);
             statement.setInt(3, 3);
             statement.setString(4, "Ikast");
-
 
             statement.executeUpdate();
 
