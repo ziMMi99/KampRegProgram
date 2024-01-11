@@ -6,15 +6,17 @@ public class Team {
     private int numberOfPlayers;
     private int point;
     private String teamCity;
+    private int active;
 
 
 // Set Constructor
-    public Team(int id, String name, int numberOfPlayers, int point, String teamCity) {
-        this.id = id;
+    public Team(String name, int numberOfPlayers, int point, String teamCity, int active) {
+
         this.name = name;
         this.numberOfPlayers = numberOfPlayers;
         this.point = point;
         this.teamCity = teamCity;
+        this.active = active;
     }
 
     @Override
@@ -25,6 +27,7 @@ public class Team {
                 ", numberOfPlayers=" + numberOfPlayers +
                 ", point=" + point +
                 ", teamCity='" + teamCity + '\'' +
+                ", active='" + active + '\'' +
                 '}';
     }
 
@@ -33,7 +36,10 @@ public class Team {
     public int getId() {return id;}
     public String getName() {return name;}
     public int getNumberOfPlayers() {return numberOfPlayers;}
+    public int getPoint() {return point;}
     public String getTeamCity() {return teamCity;}
+    public int getActive() {return active; }
+
 
 // Setters
     public void setId(int id) {
@@ -51,5 +57,5 @@ public class Team {
     public void setTeamCity(String teamCity) {
         this.teamCity = teamCity;
     }
-
+    public void setActive(int active) { this.active = active; }
 }

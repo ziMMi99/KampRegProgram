@@ -1,6 +1,7 @@
 package com.example.kampregprogram.data;
 import java.sql.*;
 import java.util.ArrayList;
+import com.example.kampregprogram.Team;
 
 public class DataLayer {
     private Connection connection;
@@ -52,23 +53,73 @@ public class DataLayer {
         }
     }
 
-    public void insertIntoTest() {
+    public void insertIntoTeam(String teamName, int numberOfPlayers, int point, String teamCity, int active) {
         try {
-            String sql = "INSERT INTO Team (teamName, numberOfPlayers, point, teamCity) VALUES (?, ?, ?, ?);";
+            String sql = "INSERT INTO Team (teamName, numberOfPlayers, point, teamCity, active) VALUES (?, ?, ?, ?, ?);";
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setString(1, "Ikhuhui");
-            statement.setInt(2, 3);
-            statement.setInt(3, 3);
-            statement.setString(4, "Ikast");
+            statement.setString(1, teamName);
+            statement.setInt(2, numberOfPlayers);
+            statement.setInt(3, 0);
+            statement.setString(4, teamCity);
+            statement.setInt(5, active);
 
             statement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
-            System.out.println("Connection to database failed.");
+            System.out.println("Connection to the database failed.");
         }
     }
+
+    public void updateTeam(Team updatedTeam, int teamId) {
+        try {
+            String sql = "UPDATE Team SET teamName = ?, numberOfPlayers = ?, teamCity = ? WHERE id = ?;";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setString(1, updatedTeam.getName());
+            statement.setInt(2, updatedTeam.getNumberOfPlayers());
+            statement.setString(3, updatedTeam.getTeamCity());
+            statement.setInt(4, teamId);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.out.println("Connection to the database failed.");
+        }
+    }
+
+    public Team getTeamDetails(int teamId) throws SQLException {
+        Team team = null;
+
+        try {
+            String sql = "SELECT * FROM Team WHERE id = ?;";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, teamId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String teamName = resultSet.getString("teamName");
+                int numberOfPlayers = resultSet.getInt("numberOfPlayers");
+                String teamCity = resultSet.getString("teamCity");
+
+                team = new Team(teamName, numberOfPlayers, 0, teamCity, 1);
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error fetching team details from the database", e);
+        }
+
+        return team;
+    }
+
+
+
+
+
 }

@@ -2,19 +2,29 @@ package com.example.kampregprogram;
 
 import com.example.kampregprogram.data.DataLayer;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.Time;
-import java.sql.Timestamp;
 
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main-page.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(),800,600);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editTeam.fxml"));
+        Parent root = fxmlLoader.load();
+
+
+        EditTeamController editTeamController = fxmlLoader.getController();
+
+
+        Team selectedTeam = getSelectedTeam();
+
+
+        editTeamController.setSelectedTeam(selectedTeam);
+        editTeamController.initialize();
+
+        Scene scene = new Scene(root, 800, 600);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
@@ -22,12 +32,16 @@ public class Application extends javafx.application.Application {
 
     public static void main(String[] args) {
         DataLayer data = new DataLayer();
-        data.insertIntoTest();
+
         launch();
 
-        MatchEventLog eventLog = new MatchEventLog(24,10,2,EventType.goal,new Timestamp(System.currentTimeMillis()));
-        System.out.println(eventLog);
+        // MatchEventLog eventLog = new MatchEventLog(24,10,2,EventType.goal,new Timestamp(System.currentTimeMillis()));
+        // System.out.println(eventLog);
+    }
 
 
+    private Team getSelectedTeam() {
+        // For demonstration purposes, returning a dummy team
+        return new Team("Team 1", 11, 0, "City 1", 1);
     }
 }
