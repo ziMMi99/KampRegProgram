@@ -40,16 +40,6 @@ public class Controller implements Initializable {
 
     }
 
-    private HBox createHBox(String label){
-        HBox oversigtHBox = new HBox();
-        Label HBoxLabel = new Label();
-
-        HBoxLabel.setText(label);
-        oversigtHBox.getChildren().add(HBoxLabel);
-        System.out.println("hej");
-
-        return oversigtHBox;
-    }
 
     public void onKamprapportClick(){}
 
