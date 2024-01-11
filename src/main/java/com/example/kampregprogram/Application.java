@@ -9,11 +9,13 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main-page.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("gameRecorder.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);
@@ -21,12 +23,13 @@ public class Application extends javafx.application.Application {
     }
 
     public static void main(String[] args) {
-        DataLayer data = new DataLayer();
-        data.insertIntoTest();
+        //DataLayer data = new DataLayer();
+        //data.insertIntoTest();
         launch();
 
-        MatchEventLog eventLog = new MatchEventLog(24,10,2,EventType.goal,new Timestamp(System.currentTimeMillis()));
-        System.out.println(eventLog);
+        //MatchEventLog eventLog = new MatchEventLog(24,10,2,EventType.goal,new Timestamp(System.currentTimeMillis()));
+        //System.out.println(eventLog);
+
 
 
     }
