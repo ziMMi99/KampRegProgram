@@ -14,7 +14,7 @@
             <HBox prefHeight="50.0" prefWidth="570.0" />
          </children>
       </VBox>
-      <Button alignment="CENTER" layoutX="630.0" layoutY="52.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="110.0" text="Kamp-rapport" />
+      <Button fx:id="switchSceneBut" alignment="CENTER" layoutX="630.0" layoutY="52.0" mnemonicParsing="false" onAction="#onKamprapportClick" prefHeight="51.0" prefWidth="110.0" text="Kamp-rapport" />
       <Label fx:id="kampOversigtLabel" alignment="CENTER" layoutX="296.0" layoutY="38.0" prefHeight="79.0" prefWidth="208.0" text="Kamp Oversigt">
          <font>
             <Font name="System Bold" size="27.0" />
