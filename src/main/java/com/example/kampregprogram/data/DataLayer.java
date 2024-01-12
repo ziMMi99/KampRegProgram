@@ -1,14 +1,13 @@
 package com.example.kampregprogram.data;
 import com.example.kampregprogram.Game;
 import com.example.kampregprogram.Team;
-
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DataLayer {
     private Connection connection;
 
-    public DataLayer () {
+    public DataLayer() {
         loadJdbcDriver();
         openConnection("MatchRegProgram");
     }
@@ -22,8 +21,7 @@ public class DataLayer {
             System.out.println("JDBC driver loaded");
 
             return true;
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             System.out.println("Could not load JDBC driver!");
             return false;
         }
@@ -47,8 +45,7 @@ public class DataLayer {
             System.out.println("Connected to database");
 
             return true;
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Could not connect to database: " + databaseName);
             System.out.println(e.getMessage());
             return false;
@@ -142,7 +139,7 @@ public class DataLayer {
         }
     }
 
-    public Game getGameForLog() {
+    /*public Game getGameForLog() {
         try {
 
         }
@@ -150,4 +147,42 @@ public class DataLayer {
         return game;
     }
 
+     */
+
+    public ArrayList<Game> selectAllGames() {
+        try {
+            ArrayList<Game> games = new ArrayList<>();
+
+            String selectAll = "SELECT * FROM Game;";
+
+            //System.out.println(selectAll);
+
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(selectAll);
+
+            // iteration starter 'before first'
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int homeTeamID = resultSet.getInt("homeTeamID");
+                int homeScore = resultSet.getInt("homeScore");
+                int awayTeamID = resultSet.getInt("awayTeamID");
+                int awayScore = resultSet.getInt("awayScore");
+                Date matchDate = resultSet.getDate("matchDate");
+
+                Game game = new Game(id, homeTeamID, homeScore, awayTeamID, awayScore,matchDate);
+
+                games.add(game);
+            }
+
+            statement.close();
+
+            return games;
+        } catch (SQLException e) {
+            System.out.println("Error: Cold not get Game");
+            System.out.println(e.getMessage());
+
+            return null;
+        }
+    }
 }
