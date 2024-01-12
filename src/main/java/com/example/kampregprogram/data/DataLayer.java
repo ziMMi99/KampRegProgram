@@ -91,7 +91,7 @@ public class DataLayer {
                 int homeScore = resultSet.getInt("homeScore");
                 int awayTeamID = resultSet.getInt("awayTeamID");
                 int awayScore = resultSet.getInt("awayScore");
-                Timestamp matchDate = resultSet.getTimestamp("matchDate");
+                Date matchDate = resultSet.getDate("matchDate");
 
                 Game game = new Game(id, homeTeamID, homeScore, awayTeamID, awayScore,matchDate);
 
