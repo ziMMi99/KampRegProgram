@@ -1,4 +1,7 @@
 package com.example.kampregprogram.data;
+import com.example.kampregprogram.Game;
+import com.example.kampregprogram.Team;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -71,4 +74,80 @@ public class DataLayer {
             System.out.println("Connection to database failed.");
         }
     }
+
+    public ArrayList<Team> getTeamsForLog() {
+        ArrayList<Team> teamList = new ArrayList<>();
+        Team team = null;
+        try {
+            String sql = "SELECT * FROM team;";
+
+            Statement statement = connection.createStatement();
+    
+            ResultSet resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {
+                String name = resultSet.getString("teamName");
+                String teamCity = resultSet.getString("teamCity");
+                int id = resultSet.getInt("id");
+                int numberOfPlayers = resultSet.getInt("numberOfPlayers");
+                int points = resultSet.getInt("point");
+                boolean active = resultSet.getBoolean("active");
+                team = new Team(id, name, numberOfPlayers, points, teamCity, active);
+                teamList.add(team);
+                System.out.println(teamList);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return teamList;
+    }
+
+    public int getTeamIDByNameLog(String teamName) {
+        int id = 0;
+        try{
+            String sql = "SELECT id FROM team WHERE teamName='" + teamName + "';";
+
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {
+                id = resultSet.getInt("id");
+            }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return id;
+    }
+
+    public void insertGameIntoDB(Game game) {
+        try {
+            String sql = "INSERT INTO Game (homeTeamID, homeScore, awayTeamID, awayScore, matchDate) VALUES (?, ?, ?, ?, ?)";
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            pstmt.setInt(1, game.getHomeTeamID());
+            pstmt.setInt(2, 0);
+            pstmt.setInt(3, game.getAwayTeamID());
+            pstmt.setInt(4, 0);
+            pstmt.setDate(5, game.getMatchDate());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Game getGameForLog() {
+        try {
+
+        }
+
+        return game;
+    }
+
 }

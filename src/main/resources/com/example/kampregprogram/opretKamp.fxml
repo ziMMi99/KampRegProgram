@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.kampregprogram.KampOpretterController">
+   <children>
+      <DatePicker fx:id="GameDate" layoutX="313.0" layoutY="322.0" />
+      <ChoiceBox fx:id="HomeTeamChoiceBox" layoutX="163.0" layoutY="170.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="AwayTeamChoiceBox" layoutX="505.0" layoutY="170.0" prefWidth="150.0" />
+      <Label layoutX="187.0" layoutY="140.0" text="Home Team">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="532.0" layoutY="140.0" text="Away Team">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Button layoutX="337.0" layoutY="419.0" mnemonicParsing="false" onAction="#OnCreateGame" text="Opret kamp">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

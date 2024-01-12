@@ -4,12 +4,18 @@ import java.sql.Timestamp;
 public class MatchEventLog {
     private int id, teamID, MatchID;
     private EventType eventType;
-    private Timestamp matchTime;
+    private int matchTime;
 
 
     //
-    public MatchEventLog(int id, int teamID, int MatchID, EventType eventType, Timestamp matchTime){
+    public MatchEventLog(int id, int teamID, int MatchID, EventType eventType, int matchTime){
         this.id = id;
+        this.teamID = teamID;
+        this.MatchID = MatchID;
+        this.eventType = eventType;
+        this.matchTime = matchTime;
+    }
+    public MatchEventLog(int teamID, int MatchID, EventType eventType, int matchTime){
         this.teamID = teamID;
         this.MatchID = MatchID;
         this.eventType = eventType;
@@ -26,7 +32,7 @@ public class MatchEventLog {
     public void setMatchID(int matchID) {
         MatchID = matchID;
     }
-    public void setMatchTime(Timestamp matchTime) {
+    public void setMatchTime(int matchTime) {
         this.matchTime = matchTime;
     }
     public void setTeamID(int teamID) {
@@ -46,7 +52,7 @@ public class MatchEventLog {
     public int getTeamID() {
         return teamID;
     }
-    public Timestamp getMatchTime() {
+    public int getMatchTime() {
         return matchTime;
     }
 
