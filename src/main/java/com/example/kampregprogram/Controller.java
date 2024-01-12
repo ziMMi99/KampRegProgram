@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -31,52 +32,51 @@ public class Controller implements Initializable {
     private Button switchSceneBut;
     @FXML
     private Label kampOversigtLabel;
+    //@FXML
+    //private ListView<Game> kampOversigtList;
+
+    private final Game[] currentFood = new Game[1];
 
 
     @FXML
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
-/*
-    public void kampOversigt(){
-
-        HBox hbox;
-        DataLayer data = new DataLayer();
-        ArrayList<Game> list = data.selectAllGames();
-
-        for (Game game : list) {
-            //System.out.println(game);
-
-            hbox = new HBox();
-            Label hboxLabel = new Label(" Home teams score " + game.getHomeScore() + " Away teams score " + game.getAwayScore() + " Match date " + game.getMatchDate());
-
-            hbox.getChildren().add(hboxLabel);
-            //oversigtVBox.getChildren().add(hbox);
-        }
-
-    }
-*/
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
 
     public void onKamprapportClick(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KampRapport.fxml"));
-        root = loader.load();
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 
+        KRController krController = new KRController();
+        krController.changeLabel(currentFood);
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //kampOversigt();
+
         DataLayer data = new DataLayer();
         ArrayList<Game> list = data.selectAllGames();
-        final Game[] currentFood = new Game[1];
+        //ArrayList<Game> kOL = new ArrayList<>(list.subList(0, 2));
+        /*ArrayList<Game> kOL = null;
+        for(Game game : list){
+            Game subsetGame  = new Game(game.getId(), game.getHomeTeamID(), game.getHomeScore(), game.getAwayTeamID(), game.getAwayScore(), game.getMatchDate());
+            subsetGame.setId(game.getId());
+            subsetGame.setHomeTeamID(game.getHomeTeamID());
+            subsetGame.setHomeScore(game.getHomeScore());
+            subsetGame.setAwayTeamID(game.getAwayTeamID());
+            subsetGame.setAwayScore(game.getAwayScore());
+            subsetGame.setMatchDate(game.getMatchDate());
+            if (kOL != null) {
+                kOL.add(subsetGame);
+            }
+        }*/
+
+
 
         allGames.getItems().addAll(list);
 
@@ -85,6 +85,7 @@ public class Controller implements Initializable {
             public void changed(ObservableValue<? extends Game> arg0, Game arg1, Game arg2) {
 
                 currentFood[0] = allGames.getSelectionModel().getSelectedItem();
+                System.out.println(Arrays.toString(currentFood));
 
             }
         });
