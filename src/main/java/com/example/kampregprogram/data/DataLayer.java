@@ -120,9 +120,30 @@ public class DataLayer {
         return id;
     }
 
+    public String getTeamNameByID(int id){
+
+        try{
+            String sql = "SELECT teamName FROM team WHERE id=" + id;
+
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                String name = resultSet.getString("teamName");
+                return name;
+            }
+
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return "name not found";
+    }
+
     public void insertGameIntoDB(Game game) {
         try {
-            String sql = "INSERT INTO Game (homeTeamID, homeScore, awayTeamID, awayScore, matchDate) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Game (homeTeamID, homeScore, awayTeamID, awayScore, matchDate, finished) VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
 
@@ -131,6 +152,7 @@ public class DataLayer {
             pstmt.setInt(3, game.getAwayTeamID());
             pstmt.setInt(4, 0);
             pstmt.setDate(5, game.getMatchDate());
+            pstmt.setInt(6, 0);
 
             pstmt.executeUpdate();
 
@@ -169,8 +191,47 @@ public class DataLayer {
                 int awayTeamID = resultSet.getInt("awayTeamID");
                 int awayScore = resultSet.getInt("awayScore");
                 Date matchDate = resultSet.getDate("matchDate");
+                int finished = resultSet.getInt("finished");
 
-                Game game = new Game(id, homeTeamID, homeScore, awayTeamID, awayScore,matchDate);
+                Game game = new Game(id, homeTeamID, homeScore, awayTeamID, awayScore,matchDate, finished);
+
+                games.add(game);
+            }
+
+            statement.close();
+
+            return games;
+        } catch (SQLException e) {
+            System.out.println("Error: Cold not get Game");
+            System.out.println(e.getMessage());
+
+            return null;
+        }
+    }
+
+    public ArrayList<Game> selectAllUnFinishedGames() {
+        try {
+            ArrayList<Game> games = new ArrayList<>();
+
+            String selectAll = "SELECT * FROM Game WHERE finished=0;";
+
+            //System.out.println(selectAll);
+
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(selectAll);
+
+            // iteration starter 'before first'
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int homeTeamID = resultSet.getInt("homeTeamID");
+                int homeScore = resultSet.getInt("homeScore");
+                int awayTeamID = resultSet.getInt("awayTeamID");
+                int awayScore = resultSet.getInt("awayScore");
+                Date matchDate = resultSet.getDate("matchDate");
+                int finished = resultSet.getInt("finished");
+
+                Game game = new Game(id, homeTeamID, homeScore, awayTeamID, awayScore, matchDate, finished);
 
                 games.add(game);
             }
@@ -186,3 +247,4 @@ public class DataLayer {
         }
     }
 }
+

@@ -4,11 +4,11 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Game {
-    private int id, homeTeamID, homeScore,awayTeamID, awayScore;
+    private int id, homeTeamID, homeScore,awayTeamID, awayScore, finished;
     private Date matchDate;
 
 
-    public Game (int id, int homeTeamID, int homeScore, int awayTeamID, int awayScore, Date matchDate) {
+    public Game (int id, int homeTeamID, int homeScore, int awayTeamID, int awayScore, Date matchDate, int finished) {
         this.id = id;
         this.homeTeamID = homeTeamID;
         this.homeScore = homeScore;
@@ -16,7 +16,7 @@ public class Game {
         this.awayScore = awayScore;
         this.matchDate = matchDate;
     }
-    public Game (int homeTeamID, int homeScore, int awayTeamID, int awayScore, Date matchDate) {
+    public Game (int homeTeamID, int homeScore, int awayTeamID, int awayScore, Date matchDate, int finished) {
         this.homeTeamID = homeTeamID;
         this.homeScore = homeScore;
         this.awayTeamID = awayTeamID;

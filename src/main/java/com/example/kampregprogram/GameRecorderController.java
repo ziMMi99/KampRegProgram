@@ -100,7 +100,7 @@ public class GameRecorderController {
     //Event handlers
     public void eventLogGoalHome(ActionEvent event) {
 
-        MatchEventLog HomeGoalLog = new MatchEventLog(game.getHomeTeamID,game.getID, EventType.goal,seconds);
+        //MatchEventLog HomeGoalLog = new MatchEventLog(game.getHomeTeamID,game.getID, EventType.goal,seconds);
     }
     public void eventLogSuspensionHome(ActionEvent event) {
 

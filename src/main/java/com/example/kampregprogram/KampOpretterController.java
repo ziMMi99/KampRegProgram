@@ -42,7 +42,7 @@ public class KampOpretterController implements Initializable {
             int homeTeamID = data.getTeamIDByNameLog(homeTeam);
             int awayTeamID = data.getTeamIDByNameLog(awayTeam);
 
-            Game game = new Game(homeTeamID, 0, awayTeamID, 0, gameDate);
+            Game game = new Game(homeTeamID, 0, awayTeamID, 0, gameDate, 0);
             System.out.println(game);
 
             data.insertGameIntoDB(game);
