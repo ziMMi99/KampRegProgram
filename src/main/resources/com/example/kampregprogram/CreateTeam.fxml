@@ -5,11 +5,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.kampregprogram.EditTeamController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.kampregprogram.CreateTeamController">
     <children>
         <VBox alignment="TOP_CENTER" layoutX="190.0" layoutY="75.0" prefHeight="511.0" prefWidth="421.0">
             <children>
-                <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="76.0" prefWidth="219.0" text="Rediger Hold">
+                <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="76.0" prefWidth="219.0" text="Opret Hold">
                     <font>
                         <Font size="24.0" />
                     </font>
@@ -40,7 +41,7 @@
                         <Insets top="10.0" />
                     </VBox.margin>
                 </TextField>
-                <Button fx:id="updateButton" mnemonicParsing="false" text="Opdater" onAction="#handleUpdateButtonClick">
+                <Button fx:id="createButton" mnemonicParsing="false" text="Opret" onAction="#handleCreateButtonClick">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>

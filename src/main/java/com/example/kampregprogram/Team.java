@@ -9,9 +9,18 @@ public class Team {
     private int active;
 
 
-// Set Constructor
-    public Team(String name, int numberOfPlayers, int point, String teamCity, int active) {
+// Set Constructor without id to create new teams
+public Team(String name, int numberOfPlayers, int point, String teamCity, int active) {
+    this.name = name;
+    this.numberOfPlayers = numberOfPlayers;
+    this.point = point;
+    this.teamCity = teamCity;
+    this.active = active;
+}
 
+    // Set Constructor with id for storing the id in the application in order to be able to update the database
+    public Team(int id, String name, int numberOfPlayers, int point, String teamCity, int active) {
+        this.id = id;
         this.name = name;
         this.numberOfPlayers = numberOfPlayers;
         this.point = point;
