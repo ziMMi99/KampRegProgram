@@ -28,16 +28,8 @@ public class Controller implements Initializable {
     private Button switchSceneBut;
     @FXML
     private Label kampOversigtLabel;
-    //@FXML
-    //private ListView<Game> kampOversigtList;
 
     private final Game[] currentGame = new Game[1];
-
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
 
     public void onKamprapportClick(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KampRapport.fxml"));
@@ -57,22 +49,6 @@ public class Controller implements Initializable {
 
         DataLayer data = new DataLayer();
         ArrayList<Game> list = data.selectAllFinishedGames();
-        //ArrayList<Game> kOL = new ArrayList<>(list.subList(0, 2));
-        /*ArrayList<Game> kOL = null;
-        for(Game game : list){
-            Game subsetGame  = new Game(game.getId(), game.getHomeTeamID(), game.getHomeScore(), game.getAwayTeamID(), game.getAwayScore(), game.getMatchDate());
-            subsetGame.setId(game.getId());
-            subsetGame.setHomeTeamID(game.getHomeTeamID());
-            subsetGame.setHomeScore(game.getHomeScore());
-            subsetGame.setAwayTeamID(game.getAwayTeamID());
-            subsetGame.setAwayScore(game.getAwayScore());
-            subsetGame.setMatchDate(game.getMatchDate());
-            if (kOL != null) {
-                kOL.add(subsetGame);
-            }
-        }*/
-
-
 
         allGames.getItems().addAll(list);
 
