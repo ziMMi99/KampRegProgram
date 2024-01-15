@@ -149,11 +149,11 @@ public class DataLayer {
 
      */
 
-    public ArrayList<Game> selectAllGames() {
+    public ArrayList<Game> selectAllFinishedGames() {
         try {
             ArrayList<Game> games = new ArrayList<>();
 
-            String selectAll = "SELECT * FROM Game;";
+            String selectAll = "SELECT * FROM Game WHERE finished= 1;";
 
             //System.out.println(selectAll);
 

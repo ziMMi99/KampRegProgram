@@ -34,7 +34,7 @@ public class Controller implements Initializable {
     //@FXML
     //private ListView<Game> kampOversigtList;
 
-    private final Game[] currentFood = new Game[1];
+    private final Game[] currentGame = new Game[1];
 
 
     @FXML
@@ -51,7 +51,7 @@ public class Controller implements Initializable {
         stage.show();
 
         KRController krController = new KRController();
-        krController.changeLabel(currentFood);
+        krController.changeLabel(currentGame);
 
     }
 
@@ -59,7 +59,7 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         DataLayer data = new DataLayer();
-        ArrayList<Game> list = data.selectAllGames();
+        ArrayList<Game> list = data.selectAllFinishedGames();
         //ArrayList<Game> kOL = new ArrayList<>(list.subList(0, 2));
         /*ArrayList<Game> kOL = null;
         for(Game game : list){
@@ -83,8 +83,8 @@ public class Controller implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Game> arg0, Game arg1, Game arg2) {
 
-                currentFood[0] = allGames.getSelectionModel().getSelectedItem();
-                System.out.println(Arrays.toString(currentFood));
+                currentGame[0] = allGames.getSelectionModel().getSelectedItem();
+                //System.out.println(Arrays.toString(currentFood));
 
             }
         });

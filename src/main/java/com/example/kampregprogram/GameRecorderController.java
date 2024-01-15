@@ -98,7 +98,7 @@ public class GameRecorderController {
     }
 
     //Event handlers
-    public void eventLogGoalHome(ActionEvent event) {
+    /*public void eventLogGoalHome(ActionEvent event) {
 
         MatchEventLog HomeGoalLog = new MatchEventLog(game.getHomeTeamID,game.getID, EventType.goal,seconds);
     }
@@ -116,6 +116,6 @@ public class GameRecorderController {
     }
     public void eventLogFreeThrowAway(ActionEvent event) {
 
-    }
+    }*/
 
 }
