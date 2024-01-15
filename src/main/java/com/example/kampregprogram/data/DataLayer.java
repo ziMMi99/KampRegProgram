@@ -1,5 +1,6 @@
 package com.example.kampregprogram.data;
 import com.example.kampregprogram.Game;
+import com.example.kampregprogram.MatchEventLog;
 import com.example.kampregprogram.Team;
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,6 +50,23 @@ public class DataLayer {
             System.out.println("Could not connect to database: " + databaseName);
             System.out.println(e.getMessage());
             return false;
+        }
+    }
+
+    public void updatePoints(int points, int teamID) {
+        try {
+            String sql = "UPDATE Team SET point = point + ? WHERE id = " + teamID;
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, points);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.out.println("Connection to database failed.");
         }
     }
 
@@ -120,6 +138,61 @@ public class DataLayer {
         return id;
     }
 
+    public void addLogToDB(MatchEventLog log){
+        try {
+            String sql = "INSERT INTO MatchEventLog (matchtime, teamID, matchID, eventType) VALUES (?, ?, ?, ?);";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, log.getMatchTime());
+            statement.setInt(2, log.getTeamID());
+            statement.setInt(3, log.getMatchID());
+            statement.setString(4, log.getEventType().toString());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.out.println("Connection to database failed.");
+        }
+
+    }
+
+    public void updateStatusToFinished(int id) {
+        try {
+            String sql = "UPDATE Game SET finished = ? WHERE id = " + id;
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, 1);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.out.println("Connection to database failed.");
+        }
+    }
+
+    public void updateTeamScore(int gameID, String teamScore, int scoreAmt){
+        try {
+            String sql = "UPDATE Game SET " + teamScore + " = ? WHERE id = " + gameID;
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, scoreAmt);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.out.println("Connection to database failed.");
+        }
+    }
+
     public String getTeamNameByID(int id){
 
         try{
@@ -161,15 +234,7 @@ public class DataLayer {
         }
     }
 
-    /*public Game getGameForLog() {
-        try {
 
-        }
-
-        return game;
-    }
-
-     */
 
     public ArrayList<Game> selectAllGames() {
         try {

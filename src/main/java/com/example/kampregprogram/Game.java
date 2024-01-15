@@ -1,12 +1,13 @@
 package com.example.kampregprogram;
 
+import com.example.kampregprogram.data.DataLayer;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Game {
     private int id, homeTeamID, homeScore,awayTeamID, awayScore, finished;
     private Date matchDate;
-
 
     public Game (int id, int homeTeamID, int homeScore, int awayTeamID, int awayScore, Date matchDate, int finished) {
         this.id = id;
@@ -22,17 +23,27 @@ public class Game {
         this.awayTeamID = awayTeamID;
         this.awayScore = awayScore;
         this.matchDate = matchDate;
+
+    }
+    public Game(Game game){
+        this.id = game.id;
+        this.homeTeamID = game.homeTeamID;
+        this.homeScore = game.homeScore;
+        this.awayTeamID = game.awayTeamID;
+        this.awayScore = game.awayScore;
+        this.matchDate = game.matchDate;
     }
 
     @Override
     public String toString() {
-        return "Game {" +
+        return "Game{" +
                 "id=" + id +
                 ", homeTeamID=" + homeTeamID +
                 ", homeScore=" + homeScore +
                 ", awayTeamID=" + awayTeamID +
                 ", awayScore=" + awayScore +
-                ", matchDate='" + matchDate + '\'' +
+                ", finished=" + finished +
+                ", matchDate=" + matchDate +
                 '}';
     }
 
@@ -75,4 +86,6 @@ public class Game {
     public Date getMatchDate() {
         return matchDate;
     }
+
+
 }

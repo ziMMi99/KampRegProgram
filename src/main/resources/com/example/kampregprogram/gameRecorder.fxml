@@ -26,35 +26,55 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="HomeTeamGoalBtn" layoutX="63.0" layoutY="148.0" mnemonicParsing="false" onAction="#eventLogGoal" prefHeight="58.0" prefWidth="129.0" text="Mål">
+      <Button fx:id="HomeTeamGoalBtn" layoutX="63.0" layoutY="148.0" mnemonicParsing="false" onAction="#eventLogGoalHome" prefHeight="58.0" prefWidth="129.0" text="Mål">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="HomeTeamSuspBtn" layoutX="63.0" layoutY="235.0" mnemonicParsing="false" onAction="#pauseTimer" prefHeight="58.0" prefWidth="129.0" text="Udvisning">
+      <Button fx:id="HomeTeamSuspBtn" layoutX="63.0" layoutY="235.0" mnemonicParsing="false" onAction="#eventLogSuspensionHome" prefHeight="58.0" prefWidth="129.0" text="Udvisning">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="HomeTeamFreeThrowBtn" layoutX="63.0" layoutY="315.0" mnemonicParsing="false" onAction="#pauseTimer" prefHeight="58.0" prefWidth="129.0" text="Straffekast">
+      <Button fx:id="HomeTeamFreeThrowBtn" layoutX="63.0" layoutY="315.0" mnemonicParsing="false" onAction="#eventLogFreeThrowHome" prefHeight="58.0" prefWidth="129.0" text="Straffekast">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="AwayTeamGoalBtn" layoutX="619.0" layoutY="148.0" mnemonicParsing="false" onAction="#eventLogGoal" prefHeight="58.0" prefWidth="129.0" text="Mål">
+      <Button fx:id="AwayTeamGoalBtn" layoutX="619.0" layoutY="148.0" mnemonicParsing="false" onAction="#eventLogGoalAway" prefHeight="58.0" prefWidth="129.0" text="Mål">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="AwayTeamSuspBtn" layoutX="619.0" layoutY="235.0" mnemonicParsing="false" onAction="#pauseTimer" prefHeight="58.0" prefWidth="129.0" text="Udvisning">
+      <Button fx:id="AwayTeamSuspBtn" layoutX="619.0" layoutY="235.0" mnemonicParsing="false" onAction="#eventLogSuspensionAway" prefHeight="58.0" prefWidth="129.0" text="Udvisning">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="AwayTeamFreeThrowBtn" layoutX="619.0" layoutY="315.0" mnemonicParsing="false" onAction="#pauseTimer" prefHeight="58.0" prefWidth="129.0" text="Straffekast">
+      <Button fx:id="AwayTeamFreeThrowBtn" layoutX="619.0" layoutY="315.0" mnemonicParsing="false" onAction="#eventLogFreeThrowAway" prefHeight="58.0" prefWidth="129.0" text="Straffekast">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
+      <Label fx:id="HomeTeamLabel" layoutX="55.0" layoutY="50.0" text="Home Team">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="AwayTeamLabel" layoutX="615.0" layoutY="50.0" text="Away Team">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="HomeTeamScoreLabel" layoutX="260.0" layoutY="50.0" text="0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label fx:id="AwayTeamScoreLabel" layoutX="533.0" layoutY="50.0" text="0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
