@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import com.example.kampregprogram.data.DataLayer;
 import java.io.IOException;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 
 
 public class TeamEditController {
@@ -20,13 +21,10 @@ public class TeamEditController {
     private TextField numberOfPlayersField;
 
     @FXML
-    private TextField pointField;
-
-    @FXML
     private TextField teamCityField;
 
     @FXML
-    private TextField activeField;
+    private CheckBox activeCheckBox;
 
     @FXML
     private Button saveButton;
@@ -35,13 +33,11 @@ public class TeamEditController {
     private DataLayer dataLayer;
 
     public void initialize() {
-
         if (selectedTeam != null) {
             nameField.setText(selectedTeam.getName());
             numberOfPlayersField.setText(String.valueOf(selectedTeam.getNumberOfPlayers()));
-            pointField.setText(String.valueOf(selectedTeam.getPoint()));
             teamCityField.setText(selectedTeam.getTeamCity());
-            activeField.setText(String.valueOf(selectedTeam.getActive()));
+            activeCheckBox.setSelected(selectedTeam.getActive() == 1);
         }
     }
 
@@ -56,7 +52,7 @@ public class TeamEditController {
             controller.initialize();
 
             Stage stage = new Stage();
-            stage.setTitle("Edit Team");
+            stage.setTitle("Ret hold");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -69,9 +65,8 @@ public class TeamEditController {
         if (dataLayer != null && selectedTeam != null) {
             selectedTeam.setName(nameField.getText());
             selectedTeam.setNumberOfPlayers(Integer.parseInt(numberOfPlayersField.getText()));
-            selectedTeam.setPoint(Integer.parseInt(pointField.getText()));
             selectedTeam.setTeamCity(teamCityField.getText());
-            selectedTeam.setActive(Integer.parseInt(activeField.getText()));
+            selectedTeam.setActive(activeCheckBox.isSelected() ? 1 : 0);
 
             dataLayer.updateTeam(selectedTeam);
 
@@ -79,7 +74,6 @@ public class TeamEditController {
             stage.close();
         }
     }
-
 
 
 

@@ -12,11 +12,17 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.util.Callback;
 
 public class TeamOverviewController {
 
     @FXML
     private ListView<Team> teamListView;
+
+    @FXML
+    private Button editButton;
 
     private ObservableList<Team> teamList = FXCollections.observableArrayList();
 
@@ -30,12 +36,39 @@ public class TeamOverviewController {
 
         teamListView.setItems(teamList);
 
-        teamListView.setOnMouseClicked(event -> {
-            Team selectedTeam = teamListView.getSelectionModel().getSelectedItem();
-            if (selectedTeam != null) {
-                openTeamEditPage(selectedTeam);
+        teamListView.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<Team> call(ListView<Team> param) {
+                return new ListCell<>() {
+                    @Override
+                    protected void updateItem(Team team, boolean empty) {
+                        super.updateItem(team, empty);
+
+                        if (empty || team == null) {
+                            setText(null);
+                            setStyle("");
+                        } else {
+
+                            setText(String.format("Holdnavn: %s -- Point: %d -- By: %s",
+                                    team.getName(), team.getPoint(), team.getTeamCity()));
+
+                            int index = getIndex();
+                            if (index == 0) {
+                                setStyle("-fx-background-color: gold;");
+                            } else if (index == 1) {
+                                setStyle("-fx-background-color: silver;");
+                            } else if (index == 2) {
+                                setStyle("-fx-background-color: #cd7f32;");
+                            } else {
+                                setStyle("");
+                            }
+                        }
+                    }
+                };
             }
         });
+
+
     }
 
     private void openTeamEditPage(Team team) {
@@ -49,7 +82,7 @@ public class TeamOverviewController {
             Parent root = loader.load();
 
             Stage createTeamStage = new Stage();
-            createTeamStage.setTitle("Create Team");
+            createTeamStage.setTitle("Opret Hold");
             createTeamStage.initModality(Modality.WINDOW_MODAL);
             createTeamStage.initOwner(teamListView.getScene().getWindow());
 
@@ -64,6 +97,17 @@ public class TeamOverviewController {
             e.printStackTrace();
         }
     }
+
+
+    @FXML
+    private void editSelectedTeam() {
+        Team selectedTeam = teamListView.getSelectionModel().getSelectedItem();
+        if (selectedTeam != null) {
+            openTeamEditPage(selectedTeam);
+        }
+    }
+
+
 
     public void updateTeamList() {
         List<Team> teams = dataLayer.getAllTeams();

@@ -38,7 +38,6 @@ public class CreateTeamController {
             teamNameTextField.clear();
             numberOfPlayersTextField.clear();
 
-            // Close the window after team creation
             Stage currentStage = (Stage) teamNameTextField.getScene().getWindow();
             currentStage.close();
 

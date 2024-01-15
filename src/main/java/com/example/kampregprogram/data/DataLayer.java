@@ -77,7 +77,7 @@ public class DataLayer implements AutoCloseable {
     public List<Team> getAllTeams() {
         List<Team> teams = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Team;";
+            String sql = "SELECT * FROM Team ORDER BY point DESC;";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
 

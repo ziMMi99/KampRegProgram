@@ -5,13 +5,28 @@
 
 <VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.kampregprogram.TeamEditController">
 
-    <TextField fx:id="nameField" promptText="Name" />
-    <TextField fx:id="numberOfPlayersField" promptText="Number of Players" />
-    <TextField fx:id="pointField" promptText="Point" />
-    <TextField fx:id="teamCityField" promptText="Team City" />
-    <TextField fx:id="activeField" promptText="Active" />
-    <Button fx:id="saveButton" text="Save" onAction="#saveChanges"/>
+    <VBox spacing="10">
+        <HBox>
+            <Label text="Holdnavn:"/>
+            <TextField fx:id="nameField" promptText="Name" />
+        </HBox>
 
+        <HBox>
+            <Label text="Antal spillere:"/>
+            <TextField fx:id="numberOfPlayersField" promptText="Number of Players" />
+        </HBox>
 
+        <HBox>
+            <Label text="By:"/>
+            <TextField fx:id="teamCityField" promptText="Team City" />
+        </HBox>
+
+        <HBox>
+            <Label text="Aktivt:"/>
+            <CheckBox fx:id="activeCheckBox" />
+        </HBox>
+
+        <Button fx:id="saveButton" text="Gem" onAction="#saveChanges"/>
+    </VBox>
 
 </VBox>
