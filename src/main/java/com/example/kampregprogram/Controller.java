@@ -29,7 +29,7 @@ public class Controller implements Initializable {
     @FXML
     private Label kampOversigtLabel;
 
-    private final Game[] currentGame = new Game[1];
+    private static Game currentGame;
 
     public void onKamprapportClick(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KampRapport.fxml"));
@@ -39,9 +39,10 @@ public class Controller implements Initializable {
         stage.setScene(scene);
         stage.show();
 
-        KRController krController = new KRController();
-        krController.changeLabel(currentGame);
+    }
 
+    public static Game getCurrentGame(){
+        return currentGame;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class Controller implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Game> arg0, Game arg1, Game arg2) {
 
-                currentGame[0] = allGames.getSelectionModel().getSelectedItem();
+                currentGame = allGames.getSelectionModel().getSelectedItem();
                 //System.out.println(Arrays.toString(currentFood));
 
             }

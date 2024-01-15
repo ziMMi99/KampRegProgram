@@ -1,5 +1,7 @@
 package com.example.kampregprogram.data;
+import com.example.kampregprogram.EventType;
 import com.example.kampregprogram.Game;
+import com.example.kampregprogram.MatchEventLog;
 import com.example.kampregprogram.Team;
 import java.sql.*;
 import java.util.ArrayList;
@@ -178,6 +180,43 @@ public class DataLayer {
             statement.close();
 
             return games;
+        } catch (SQLException e) {
+            System.out.println("Error: Cold not get Game");
+            System.out.println(e.getMessage());
+
+            return null;
+        }
+    }
+
+    public ArrayList<MatchEventLog> getTeamEventLog(int matchID, int id) {
+        return getMatchEventLogWhereClause(matchID,id);
+    }
+
+    private ArrayList<MatchEventLog> getMatchEventLogWhereClause(int matchWhereClause, int whereClause){
+        try{
+        ArrayList<MatchEventLog> eventLogs = new ArrayList<>();
+
+        String sql = "Select * From MatchEventLog WHERE matchID=" + matchWhereClause + " And teamID=" + whereClause;
+
+        Statement statement = connection.createStatement();
+
+        ResultSet  resultSet = statement.executeQuery(sql);
+
+        while (resultSet.next()){
+            int id = resultSet.getInt("id");
+            int teamID = resultSet.getInt("teamID");
+            int matchID = resultSet.getInt("matchID");
+            String eventTypes = resultSet.getString("eventtype");
+            EventType eventType = EventType.valueOf(eventTypes);
+            int matchTime = resultSet.getInt("matchtime");
+
+            MatchEventLog matchEventLog = new MatchEventLog(id, teamID, matchID, eventType, matchTime);
+
+            eventLogs.add(matchEventLog);
+        }
+        statement.close();
+
+        return eventLogs;
         } catch (SQLException e) {
             System.out.println("Error: Cold not get Game");
             System.out.println(e.getMessage());

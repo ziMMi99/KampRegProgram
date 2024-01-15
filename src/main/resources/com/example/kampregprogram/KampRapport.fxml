@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -16,5 +17,7 @@
       <Label fx:id="awayTeamID" alignment="CENTER" layoutX="504.0" layoutY="185.0" prefHeight="46.0" prefWidth="139.0" text="Away Team ID" />
       <Label fx:id="awayScore" alignment="CENTER" layoutX="504.0" layoutY="254.0" prefHeight="46.0" prefWidth="139.0" text="Away Team Score" />
       <Label fx:id="matchDate" alignment="CENTER" layoutX="331.0" layoutY="185.0" prefHeight="46.0" prefWidth="139.0" text="Match Date" />
+      <ListView fx:id="allHomeTeam" layoutX="100.0" layoutY="300.0" prefHeight="200.0" prefWidth="253.0" />
+      <ListView fx:id="allAwayTeam" layoutX="447.0" layoutY="300.0" prefHeight="200.0" prefWidth="253.0" />
    </children>
 </AnchorPane>
