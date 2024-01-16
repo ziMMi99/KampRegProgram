@@ -71,6 +71,12 @@ public class GameReportController implements Initializable {
         stage.show();
     }
 
+    public void exportGameReport() {
+        DataLayer data = new DataLayer();
+
+        data.exportGameReportToCsv(selectedGame.getId());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //This makes it so the method runs when you go onto gameReport.fxml

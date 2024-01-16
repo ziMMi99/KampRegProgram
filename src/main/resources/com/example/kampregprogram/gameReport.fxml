@@ -25,5 +25,10 @@
             <Font size="15.0" />
          </font>
       </Button>
+      <Button layoutX="707.0" layoutY="24.0" mnemonicParsing="false" onAction="#exportGameReport" prefHeight="31.0" prefWidth="79.0" text="Export">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>

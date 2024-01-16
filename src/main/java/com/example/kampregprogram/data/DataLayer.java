@@ -5,6 +5,9 @@ import com.example.kampregprogram.DBO.Game;
 import com.example.kampregprogram.DBO.MatchEventLog;
 
 import com.example.kampregprogram.DBO.Team;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +75,8 @@ public class DataLayer implements AutoCloseable {
 
             statement.executeUpdate();
 
+            statement.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -93,6 +98,8 @@ public class DataLayer implements AutoCloseable {
             statement.setInt(5, active);
 
             statement.executeUpdate();
+
+            statement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,6 +127,8 @@ public class DataLayer implements AutoCloseable {
                 teams.add(team);
             }
 
+            statement.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -141,6 +150,8 @@ public class DataLayer implements AutoCloseable {
             statement.setInt(6, team.getId());
 
             statement.executeUpdate();
+
+            statement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -171,6 +182,8 @@ public class DataLayer implements AutoCloseable {
                 System.out.println(teamList);
             }
 
+            statement.close();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -189,6 +202,8 @@ public class DataLayer implements AutoCloseable {
             while (resultSet.next()) {
                 id = resultSet.getInt("id");
             }
+
+            statement.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -210,6 +225,8 @@ public class DataLayer implements AutoCloseable {
 
             statement.executeUpdate();
 
+            statement.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -228,6 +245,8 @@ public class DataLayer implements AutoCloseable {
 
             statement.executeUpdate();
 
+            statement.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -244,6 +263,8 @@ public class DataLayer implements AutoCloseable {
             statement.setInt(1, scoreAmt);
 
             statement.executeUpdate();
+
+            statement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -266,6 +287,7 @@ public class DataLayer implements AutoCloseable {
                 return name;
             }
 
+            statement.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -277,16 +299,18 @@ public class DataLayer implements AutoCloseable {
         try {
             String sql = "INSERT INTO Game (homeTeamID, homeScore, awayTeamID, awayScore, matchDate, finished) VALUES (?, ?, ?, ?, ?, ?)";
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
 
-            pstmt.setInt(1, game.getHomeTeamID());
-            pstmt.setInt(2, 0);
-            pstmt.setInt(3, game.getAwayTeamID());
-            pstmt.setInt(4, 0);
-            pstmt.setDate(5, game.getMatchDate());
-            pstmt.setInt(6, 0);
+            statement.setInt(1, game.getHomeTeamID());
+            statement.setInt(2, 0);
+            statement.setInt(3, game.getAwayTeamID());
+            statement.setInt(4, 0);
+            statement.setDate(5, game.getMatchDate());
+            statement.setInt(6, 0);
 
-            pstmt.executeUpdate();
+            statement.executeUpdate();
+
+            statement.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -399,6 +423,7 @@ public class DataLayer implements AutoCloseable {
 
                 eventLogs.add(matchEventLog);
             }
+
             statement.close();
 
             return eventLogs;
@@ -409,7 +434,113 @@ public class DataLayer implements AutoCloseable {
             return null;
         }
     }
+    //Takes 2 resultsets and writes them to a csv file
+    public void exportGameReportToCsv(int gameID) {
+        //The name and location where the file will be saved. "ExportFiles" is the folder in which it will be saved to
+        //"GameReport" is the name of the file "+gameId" is to differentiate the files from each other. ".csv" is the file format
+        //CSV = comma-separated values
+        String csvFilePath = "ExportFiles/GameReport" + gameID + ".csv";
 
+        try {
+            //Gets the Data from the database, where the data matches the game id parameter
+            String sqlGame = "SELECT * FROM Game WHERE id=" + gameID + ";";
+            String sqlEventLog = "SELECT * FROM MatchEventLog WHERE matchID=" + gameID + ";";
+
+            Statement statement = connection.createStatement();
+            //Execute only the first sql statement. It's important to not execute both statements here, since this will close the first resultset
+            //Resulting in an error "Resultset is closed". It will only work if you execute the second sql statement after the first while loop.
+            ResultSet resultSetGame = statement.executeQuery(sqlGame);
+            //A bufferedWriter is used like a Stringbuilder. It gives the ability to make changes to a file, until you close it
+            //A new instance of FileWriter is made inside the bufferedwriter.
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(csvFilePath));
+            //Make a line in the top, displaying different value names
+            fileWriter.write("id, homeTeamID, homeScore, awayTeamID, awayScore, matchDate, finished");
+            //Creates a new line
+            fileWriter.newLine();
+
+            while (resultSetGame.next()) {
+                int id = resultSetGame.getInt("id");
+                int homeTeamID = resultSetGame.getInt("homeTeamID");
+                int homeScore = resultSetGame.getInt("awayTeamID");
+                int awayScore = resultSetGame.getInt("awayScore");
+                Date matchDate = resultSetGame.getDate("matchDate");
+                int finished = resultSetGame.getInt("finished");
+                //A fancy way to make a string. %s is a placeholder for text. All it does is make a string
+                //and fill the "%s" placeholders with the values after. It's an alternative to string concatenation
+                String gameline = String.format("%s,%s,%s,%s,%s,%s", id, homeTeamID, homeScore, awayScore, matchDate, finished);
+                //Write the line that just got made
+                fileWriter.write(gameline);
+                fileWriter.newLine();
+            }
+
+            //makes a header for the MatchLogEvent data
+            fileWriter.newLine();
+            fileWriter.write("EventID, MatchTime, TeamID, MatchID, EventType");
+            fileWriter.newLine();
+            //execute the second sql statement after the first while loop. As descriped above
+            ResultSet resultSetEventLog = statement.executeQuery(sqlEventLog);
+
+            while (resultSetEventLog.next()) {
+                int id = resultSetEventLog.getInt("id");
+                int matchTime = resultSetEventLog.getInt("matchTime");
+                int teamID = resultSetEventLog.getInt("teamID");
+                int matchID = resultSetEventLog.getInt("matchID");
+                String eventTypes = resultSetEventLog.getString("eventtype");
+                EventType eventType = EventType.valueOf(eventTypes);
+
+                //Same procedure as before, just with some other information
+                String eventLogLine = String.format("%s,%s,%s,%s,%s", id, matchTime, teamID, matchID, eventType);
+                fileWriter.newLine();
+                fileWriter.write(eventLogLine);
+            }
+
+            //close the statement, and the fileWriter
+            statement.close();
+            fileWriter.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exportLeagueStandingCsv() {
+        //Gets the date today, and formats it to a readable date
+        Date date = new Date(System.currentTimeMillis());
+
+        String csvFilePath = "ExportFiles/LeagueStanding" + date + ".csv";
+
+        try {
+            //Select all teams by points. (Highest first)
+            String sql = "SELECT * FROM Team ORDER BY point DESC;";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(csvFilePath));
+
+            fileWriter.write("id, name, numberOfPlayers, point, teamCity, active");
+            fileWriter.newLine();
+
+            while (resultSet.next()) {
+                int id =resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int numberOfPlayers = resultSet.getInt("numberOfPlayers");
+                int point = resultSet.getInt("point");
+                String teamCity = resultSet.getString("teamCity");
+                int active = resultSet.getInt("active");
+
+                String teamline = String.format("%s,%s,%s,%s,%s,%s", id, name, numberOfPlayers, point, teamCity, active);
+
+                fileWriter.write(teamline);
+                fileWriter.newLine();
+            }
+
+            statement.close();
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     //Closes the connection
     @Override

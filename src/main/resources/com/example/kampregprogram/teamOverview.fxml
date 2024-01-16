@@ -10,12 +10,17 @@
    <children>
    
                       <ListView fx:id="teamListView" layoutX="50.0" layoutY="64.0" prefHeight="473.0" prefWidth="700.0" />
-       <MenuButton fx:id="menuButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Menu">
+       <MenuButton fx:id="menuButton" layoutX="11.0" layoutY="14.0" mnemonicParsing="false" text="Menu">
            <font>
                <Font size="15.0" />
            </font>
        </MenuButton>
         <Button fx:id="createTeamButton" layoutX="14.0" layoutY="555.0" onAction="#openCreateTeamView" text="Opret nyt hold" />
         <Button fx:id="editButton" layoutX="118.0" layoutY="555.0" onAction="#editSelectedTeam" text="Ret hold" />
+      <Button layoutX="723.0" layoutY="14.0" mnemonicParsing="false" onAction="#exportLeaugeStandigsToCsv" text="Export">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

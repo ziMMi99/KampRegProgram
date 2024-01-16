@@ -27,14 +27,14 @@ public class TeamOverviewController {
 
     private ObservableList<Team> teamList = FXCollections.observableArrayList();
 
-    private DataLayer dataLayer;
+    private DataLayer data;
 
 
     public void initialize() {
         // Creates an instance of the database connection / data-layer class
-        dataLayer = new DataLayer();
+        data = new DataLayer();
         // List of instances of teams - fetched with the sql method getAllTeams in the datalayer
-        List<Team> teams = dataLayer.getAllTeamsOrderByPoint();
+        List<Team> teams = data.getAllTeamsOrderByPoint();
         teamList.addAll(teams);
         teamListView.setItems(teamList);
 
@@ -154,7 +154,7 @@ public class TeamOverviewController {
     // Opens the edit team dialogue sending the selected team as parameter
     private void openTeamEditPage(Team team) {
         // Calls team edit controller - showteameditpage method sending the selected team as parameter
-        TeamEditController.showTeamEditPage(team, dataLayer);
+        TeamEditController.showTeamEditPage(team, data);
     }
 
     @FXML
@@ -202,14 +202,15 @@ public class TeamOverviewController {
     It is used in the openCreateTeamView method after the show and wait.
     */
     public void updateTeamList() {
-        List<Team> teams = dataLayer.getAllTeamsOrderByPoint();
+        List<Team> teams = data.getAllTeamsOrderByPoint();
         teamList.clear();
         teamList.addAll(teams);
         teamListView.setItems(teamList);
     }
 
+    public void exportLeaugeStandigsToCsv() {
+        data = new DataLayer();
 
-
-
-
+        data.exportLeagueStandingCsv();
+    }
 }
