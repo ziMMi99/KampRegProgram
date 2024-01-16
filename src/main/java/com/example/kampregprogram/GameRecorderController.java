@@ -144,10 +144,10 @@ public class GameRecorderController implements Initializable {
             System.out.println("Game is not being played");
             return;
         }
-        MatchEventLog homeGoalLog = new MatchEventLog(RecordedGame.getHomeTeamID(), RecordedGame.getId(), EventType.goal,seconds);
+        MatchEventLog homeGoalLog = new MatchEventLog(RecordedGame.getHomeTeamID(), RecordedGame.getId(), EventType.goal, seconds);
         System.out.println(homeGoalLog);
         data.addLogToDB(homeGoalLog);
-        RecordedGame.setHomeScore(RecordedGame.getHomeScore()+1);
+        RecordedGame.setHomeScore(RecordedGame.getHomeScore() + 1);
         System.out.println(RecordedGame.getHomeScore());
         data.updateTeamScore(RecordedGame.getId(), "homeScore", RecordedGame.getHomeScore());
         HomeTeamScoreLabel.setText("" + RecordedGame.getHomeScore());
@@ -193,6 +193,7 @@ public class GameRecorderController implements Initializable {
         data.addLogToDB(suspensionAway);
     }
     public void eventLogFreeThrowAway(ActionEvent event) {
+
         if (seconds >= matchLength || seconds == 0) {
             System.out.println("Game is not being played");
             return;

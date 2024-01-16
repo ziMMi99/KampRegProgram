@@ -23,15 +23,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -43,15 +40,14 @@ public class Controller implements Initializable {
     private Button switchSceneBut;
     @FXML
     private Label kampOversigtLabel;
-    //@FXML
-    //private ListView<Game> kampOversigtList;
 
-    private final Game[] currentFood = new Game[1];
 
 
     private Stage stage;
     private Scene scene;
     private Parent root;
+
+    private static Game currentGame;
 
     public void onKamprapportClick(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("KampRapport.fxml"));
@@ -61,14 +57,17 @@ public class Controller implements Initializable {
         stage.setScene(scene);
         stage.show();
 
-        KRController krController = new KRController();
-        krController.changeLabel(currentFood);
+    }
 
+    public static Game getCurrentGame(){
+        return currentGame;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        DataLayer data = new DataLayer();
+        ArrayList<Game> list = data.selectAllFinishedGames();
 
         allGames.getItems().addAll(list);
 
@@ -76,8 +75,8 @@ public class Controller implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Game> arg0, Game arg1, Game arg2) {
 
-                currentFood[0] = allGames.getSelectionModel().getSelectedItem();
-                System.out.println(Arrays.toString(currentFood));
+                currentGame = allGames.getSelectionModel().getSelectedItem();
+                //System.out.println(Arrays.toString(currentFood));
 
             }
         });
