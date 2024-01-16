@@ -1,12 +1,15 @@
 package com.example.kampregprogram.data;
+
 import com.example.kampregprogram.EventType;
 import com.example.kampregprogram.Game;
 import com.example.kampregprogram.MatchEventLog;
+
 import com.example.kampregprogram.Team;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class DataLayer {
+public class DataLayer implements AutoCloseable {
     private Connection connection;
 
     public DataLayer() {
@@ -35,24 +38,28 @@ public class DataLayer {
                     "jdbc:sqlserver://localhost:1433;" +
                             "instanceName=SQLEXPRESS;" +
                             "databaseName=" + databaseName + ";" +
-                            "integratedSecurity=true;" + // bruger Windows credentials
-                            "trustServerCertificate=true;"; // afht. SSL forbindelse
+                            "integratedSecurity=true;" +
+                            "trustServerCertificate=true;";
 
             System.out.println(connectionString);
 
-            System.out.println("Connecting to database...");
+            System.out.println("Connecting to the database...");
 
             connection = DriverManager.getConnection(connectionString);
 
-            System.out.println("Connected to database");
+            System.out.println("Connected to the database");
 
             return true;
         } catch (SQLException e) {
+
             System.out.println("Could not connect to database: " + databaseName);
+            System.out.println("Could not connect to the database: " + databaseName);
+
             System.out.println(e.getMessage());
             return false;
         }
     }
+
 
     public void updatePoints(int points, int teamID) {
         try {
@@ -71,36 +78,93 @@ public class DataLayer {
         }
     }
 
-    public void insertIntoTest() {
+    public void insertIntoTeam (String name,int numberOfPlayers, int point, String teamCity,int active){
+
         try {
-            String sql = "INSERT INTO Team (teamName, numberOfPlayers, point, teamCity) VALUES (?, ?, ?, ?);";
+            String sql = "INSERT INTO Team (name, numberOfPlayers, point, teamCity, active) VALUES (?, ?, ?, ?, ?);";
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setString(1, "Ikhuhui");
-            statement.setInt(2, 3);
-            statement.setInt(3, 3);
-            statement.setString(4, "Ikast");
+            statement.setString(1, name);
+            statement.setInt(2, numberOfPlayers);
+            statement.setInt(3, point);
+            statement.setString(4, teamCity);
+            statement.setInt(5, active);
 
             statement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
-            System.out.println("Connection to database failed.");
+            System.out.println("Connection to the database failed.");
         }
     }
 
-    public ArrayList<Team> getTeamsForLog() {
+    public List<Team> getAllTeams () {
+        List<Team> teams = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Team ORDER BY point DESC;";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Team team = new Team(
+                        resultSet.getInt("id"),  // Include the id
+                        resultSet.getString("name"),
+                        resultSet.getInt("numberOfPlayers"),
+                        resultSet.getInt("point"),
+                        resultSet.getString("teamCity"),
+                        resultSet.getInt("active")
+                );
+                teams.add(team);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return teams;
+    }
+
+
+    public void updateTeam (Team team){
+        try {
+            String sql = "UPDATE Team SET name=?, numberOfPlayers=?, point=?, teamCity=?, active=? WHERE id=?";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, team.getName());
+            statement.setInt(2, team.getNumberOfPlayers());
+            statement.setInt(3, team.getPoint());
+            statement.setString(4, team.getTeamCity());
+            statement.setInt(5, team.getActive());
+            statement.setInt(6, team.getId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void close () throws Exception {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+            System.out.println("Database connection closed");
+        }
+    }
+
+    public ArrayList<Team> getTeamsForLog () {
         ArrayList<Team> teamList = new ArrayList<>();
         Team team = null;
         try {
             String sql = "SELECT * FROM team;";
 
             Statement statement = connection.createStatement();
-    
+
             ResultSet resultSet = statement.executeQuery(sql);
-            
+
             while (resultSet.next()) {
                 String name = resultSet.getString("teamName");
                 String teamCity = resultSet.getString("teamCity");
@@ -119,27 +183,27 @@ public class DataLayer {
         return teamList;
     }
 
-    public int getTeamIDByNameLog(String teamName) {
+    public int getTeamIDByNameLog (String teamName){
         int id = 0;
-        try{
+        try {
             String sql = "SELECT id FROM team WHERE teamName='" + teamName + "';";
 
             Statement statement = connection.createStatement();
 
             ResultSet resultSet = statement.executeQuery(sql);
-            
+
             while (resultSet.next()) {
                 id = resultSet.getInt("id");
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         return id;
     }
 
-    public void addLogToDB(MatchEventLog log){
+    public void addLogToDB (MatchEventLog log){
         try {
             String sql = "INSERT INTO MatchEventLog (matchtime, teamID, matchID, eventType) VALUES (?, ?, ?, ?);";
 
@@ -160,7 +224,7 @@ public class DataLayer {
 
     }
 
-    public void updateStatusToFinished(int id) {
+    public void updateStatusToFinished ( int id){
         try {
             String sql = "UPDATE Game SET finished = ? WHERE id = " + id;
 
@@ -177,7 +241,7 @@ public class DataLayer {
         }
     }
 
-    public void updateTeamScore(int gameID, String teamScore, int scoreAmt){
+    public void updateTeamScore ( int gameID, String teamScore,int scoreAmt){
         try {
             String sql = "UPDATE Game SET " + teamScore + " = ? WHERE id = " + gameID;
 
@@ -194,9 +258,9 @@ public class DataLayer {
         }
     }
 
-    public String getTeamNameByID(int id){
+    public String getTeamNameByID ( int id){
 
-        try{
+        try {
             String sql = "SELECT teamName FROM team WHERE id=" + id;
 
             Statement statement = connection.createStatement();
@@ -209,13 +273,13 @@ public class DataLayer {
             }
 
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return "name not found";
     }
 
-    public void insertGameIntoDB(Game game) {
+    public void insertGameIntoDB (Game game){
         try {
             String sql = "INSERT INTO Game (homeTeamID, homeScore, awayTeamID, awayScore, matchDate, finished) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -236,8 +300,7 @@ public class DataLayer {
     }
 
 
-
-    public ArrayList<Game> selectAllFinishedGames() {
+    public ArrayList<Game> selectAllFinishedGames () {
         try {
             ArrayList<Game> games = new ArrayList<>();
 
@@ -259,7 +322,7 @@ public class DataLayer {
                 Date matchDate = resultSet.getDate("matchDate");
                 int finished = resultSet.getInt("finished");
 
-                Game game = new Game(id, homeTeamID, homeScore, awayTeamID, awayScore,matchDate, finished);
+                Game game = new Game(id, homeTeamID, homeScore, awayTeamID, awayScore, matchDate, finished);
 
                 games.add(game);
             }
@@ -275,7 +338,7 @@ public class DataLayer {
         }
     }
 
-    public ArrayList<Game> selectAllUnFinishedGames() {
+    public ArrayList<Game> selectAllUnFinishedGames () {
         try {
             ArrayList<Game> games = new ArrayList<>();
 
@@ -313,35 +376,35 @@ public class DataLayer {
         }
     }
 
-    public ArrayList<MatchEventLog> getTeamEventLog(int matchID, int id) {
-        return getMatchEventLogWhereClause(matchID,id);
+    public ArrayList<MatchEventLog> getTeamEventLog ( int matchID, int id){
+        return getMatchEventLogWhereClause(matchID, id);
     }
 
-    private ArrayList<MatchEventLog> getMatchEventLogWhereClause(int matchWhereClause, int whereClause){
-        try{
-        ArrayList<MatchEventLog> eventLogs = new ArrayList<>();
+    private ArrayList<MatchEventLog> getMatchEventLogWhereClause ( int matchWhereClause, int whereClause){
+        try {
+            ArrayList<MatchEventLog> eventLogs = new ArrayList<>();
 
-        String sql = "Select * From MatchEventLog WHERE matchID=" + matchWhereClause + " And teamID=" + whereClause;
+            String sql = "Select * From MatchEventLog WHERE matchID=" + matchWhereClause + " And teamID=" + whereClause;
 
-        Statement statement = connection.createStatement();
+            Statement statement = connection.createStatement();
 
-        ResultSet  resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(sql);
 
-        while (resultSet.next()){
-            int id = resultSet.getInt("id");
-            int teamID = resultSet.getInt("teamID");
-            int matchID = resultSet.getInt("matchID");
-            String eventTypes = resultSet.getString("eventtype");
-            EventType eventType = EventType.valueOf(eventTypes);
-            int matchTime = resultSet.getInt("matchtime");
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int teamID = resultSet.getInt("teamID");
+                int matchID = resultSet.getInt("matchID");
+                String eventTypes = resultSet.getString("eventtype");
+                EventType eventType = EventType.valueOf(eventTypes);
+                int matchTime = resultSet.getInt("matchtime");
 
-            MatchEventLog matchEventLog = new MatchEventLog(id, teamID, matchID, eventType, matchTime);
+                MatchEventLog matchEventLog = new MatchEventLog(id, teamID, matchID, eventType, matchTime);
 
-            eventLogs.add(matchEventLog);
-        }
-        statement.close();
+                eventLogs.add(matchEventLog);
+            }
+            statement.close();
 
-        return eventLogs;
+            return eventLogs;
         } catch (SQLException e) {
             System.out.println("Error: Cold not get Game");
             System.out.println(e.getMessage());
