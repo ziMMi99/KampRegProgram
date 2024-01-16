@@ -43,7 +43,7 @@ public class KRController implements Initializable {
 
         setLabel(HTID, HS, ATID, AS, MD);
 
-        System.out.println(selectedGame);
+        //System.out.println(selectedGame);
     }
 
     public void setLabel(int HTID, int HS, int ATID, int AS, Date MD){
@@ -60,7 +60,7 @@ public class KRController implements Initializable {
 
         DataLayer data = new DataLayer();
         ArrayList<MatchEventLog> listOfHomeTeam = data.getTeamEventLog(MID, HTID);
-        System.out.println(listOfHomeTeam);
+        //System.out.println(listOfHomeTeam);
 
         allHomeTeam.getItems().addAll(listOfHomeTeam);
 
