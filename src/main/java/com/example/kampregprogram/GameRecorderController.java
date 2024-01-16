@@ -76,7 +76,6 @@ public class GameRecorderController implements Initializable {
                         myRepeatingTimer.cancel();
                         finishGame();
                     }
-
                 });
             }
         }, 0, timeSpeed);

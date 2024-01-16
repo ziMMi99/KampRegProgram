@@ -106,7 +106,7 @@ public class DataLayer {
                 int id = resultSet.getInt("id");
                 int numberOfPlayers = resultSet.getInt("numberOfPlayers");
                 int points = resultSet.getInt("point");
-                boolean active = resultSet.getBoolean("active");
+                int active = resultSet.getInt("active");
                 team = new Team(id, name, numberOfPlayers, points, teamCity, active);
                 teamList.add(team);
                 System.out.println(teamList);

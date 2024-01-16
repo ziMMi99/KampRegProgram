@@ -6,12 +6,20 @@ public class Team {
     private int numberOfPlayers;
     private int point;
     private String teamCity;
-    private boolean active;
+    private int active;
 
 
 // Set Constructor
-    public Team(int id, String name, int numberOfPlayers, int point, String teamCity, boolean active) {
+    public Team(int id, String name, int numberOfPlayers, int point, String teamCity, int active) {
         this.id = id;
+        this.name = name;
+        this.numberOfPlayers = numberOfPlayers;
+        this.point = point;
+        this.teamCity = teamCity;
+        this.active = active;
+    }
+
+    public Team(String name, int numberOfPlayers, int point, String teamCity, int active) {
         this.name = name;
         this.numberOfPlayers = numberOfPlayers;
         this.point = point;
@@ -39,7 +47,7 @@ public class Team {
     public int getPoint() {
         return point;
     }
-    public boolean getStatus() {return active;}
+    public int getStatus() {return active;}
 
     // Setters
     public void setId(int id) {
@@ -57,7 +65,7 @@ public class Team {
     public void setTeamCity(String teamCity) {
         this.teamCity = teamCity;
     }
-    public void setStatus(boolean status){
+    public void setStatus(int status){
         this.active = status;
     }
 
