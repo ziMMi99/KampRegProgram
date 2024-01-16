@@ -1,5 +1,6 @@
-package com.example.kampregprogram;
+package com.example.kampregprogram.controllers;
 
+import com.example.kampregprogram.DBO.Team;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -13,7 +14,7 @@ import javafx.scene.control.CheckBox;
 
 
 public class TeamEditController {
-
+// Declaring variables
     @FXML
     private TextField nameField;
 
@@ -33,7 +34,9 @@ public class TeamEditController {
     private DataLayer dataLayer;
 
     public void initialize() {
+        //checks that a team has been selected before trying to call the get methods
         if (selectedTeam != null) {
+            // assigns values to the declared variables by calling the teams get methods
             nameField.setText(selectedTeam.getName());
             numberOfPlayersField.setText(String.valueOf(selectedTeam.getNumberOfPlayers()));
             teamCityField.setText(selectedTeam.getTeamCity());
@@ -42,8 +45,9 @@ public class TeamEditController {
     }
 
     public static void showTeamEditPage(Team team, DataLayer dataLayer) {
+        // this method is called in team overview controller sending the selected team and
         try {
-            FXMLLoader loader = new FXMLLoader(TeamEditController.class.getResource("TeamEdit.fxml"));
+            FXMLLoader loader = new FXMLLoader(TeamEditController.class.getResource("/com/example/kampregprogram/teamEdit.fxml"));
             Parent root = loader.load();
 
             TeamEditController controller = loader.getController();

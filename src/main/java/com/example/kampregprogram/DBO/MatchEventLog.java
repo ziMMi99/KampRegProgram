@@ -1,4 +1,6 @@
-package com.example.kampregprogram;
+package com.example.kampregprogram.DBO;
+import com.example.kampregprogram.EventType;
+
 import java.sql.Timestamp;
 
 public class MatchEventLog {

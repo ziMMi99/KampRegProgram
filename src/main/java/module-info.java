@@ -9,4 +9,8 @@ module com.example.kampregprogram {
     exports com.example.kampregprogram;
     exports com.example.kampregprogram.data;
     opens com.example.kampregprogram.data to javafx.fxml;
+    exports com.example.kampregprogram.controllers;
+    opens com.example.kampregprogram.controllers to javafx.fxml;
+    exports com.example.kampregprogram.DBO;
+    opens com.example.kampregprogram.DBO to javafx.fxml;
 }

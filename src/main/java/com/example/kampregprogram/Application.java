@@ -9,9 +9,9 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("TeamOverview.fxml"));
-        primaryStage.setTitle("Hold Oversigt");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        Parent root = FXMLLoader.load(getClass().getResource("teamOverview.fxml"));
+        primaryStage.setTitle("Kamp-registrerings-program");
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 

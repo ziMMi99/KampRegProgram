@@ -1,9 +1,6 @@
-package com.example.kampregprogram;
-
-import com.example.kampregprogram.data.DataLayer;
+package com.example.kampregprogram.DBO;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 public class Game {
     private int id, homeTeamID, homeScore,awayTeamID, awayScore, finished;

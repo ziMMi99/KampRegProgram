@@ -1,10 +1,10 @@
 package com.example.kampregprogram.data;
 
 import com.example.kampregprogram.EventType;
-import com.example.kampregprogram.Game;
-import com.example.kampregprogram.MatchEventLog;
+import com.example.kampregprogram.DBO.Game;
+import com.example.kampregprogram.DBO.MatchEventLog;
 
-import com.example.kampregprogram.Team;
+import com.example.kampregprogram.DBO.Team;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,12 @@ import java.util.List;
 public class DataLayer implements AutoCloseable {
     private Connection connection;
 
+    //Constructor for the datalayer, which initializes the JDBC driver loader, and opens the connection to the database
     public DataLayer() {
         loadJdbcDriver();
         openConnection("MatchRegProgram");
     }
-
+    //Loads the JDBC driver.'
     private boolean loadJdbcDriver() {
         try {
             System.out.println("Loading JDBC driver...");
@@ -31,7 +32,7 @@ public class DataLayer implements AutoCloseable {
             return false;
         }
     }
-
+    //Opens a connection the the database
     private boolean openConnection(String databaseName) {
         try {
             String connectionString =
@@ -60,7 +61,7 @@ public class DataLayer implements AutoCloseable {
         }
     }
 
-
+    //Updates the points of the team. Which is used when a game is finished.
     public void updatePoints(int points, int teamID) {
         try {
             String sql = "UPDATE Team SET point = point + ? WHERE id = " + teamID;
@@ -77,7 +78,7 @@ public class DataLayer implements AutoCloseable {
             System.out.println("Connection to database failed.");
         }
     }
-
+    //Creates a team in the database, which the parameters given.
     public void insertIntoTeam (String name,int numberOfPlayers, int point, String teamCity,int active){
 
         try {
@@ -99,8 +100,8 @@ public class DataLayer implements AutoCloseable {
             System.out.println("Connection to the database failed.");
         }
     }
-
-    public List<Team> getAllTeams () {
+    //Gets a List of all teams sorted by points displaying the leading teams first
+    public List<Team> getAllTeamsOrderByPoint () {
         List<Team> teams = new ArrayList<>();
         try {
             String sql = "SELECT * FROM Team ORDER BY point DESC;";
@@ -109,7 +110,7 @@ public class DataLayer implements AutoCloseable {
 
             while (resultSet.next()) {
                 Team team = new Team(
-                        resultSet.getInt("id"),  // Include the id
+                        resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getInt("numberOfPlayers"),
                         resultSet.getInt("point"),
@@ -126,7 +127,7 @@ public class DataLayer implements AutoCloseable {
         return teams;
     }
 
-
+    //Updates the team, with the team instance parameter
     public void updateTeam (Team team){
         try {
             String sql = "UPDATE Team SET name=?, numberOfPlayers=?, point=?, teamCity=?, active=? WHERE id=?";
@@ -147,14 +148,7 @@ public class DataLayer implements AutoCloseable {
     }
 
 
-    @Override
-    public void close () throws Exception {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-            System.out.println("Database connection closed");
-        }
-    }
-
+    //Gets all teams for logging purposes
     public ArrayList<Team> getTeamsForLog () {
         ArrayList<Team> teamList = new ArrayList<>();
         Team team = null;
@@ -166,7 +160,7 @@ public class DataLayer implements AutoCloseable {
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                String name = resultSet.getString("teamName");
+                String name = resultSet.getString("name");
                 String teamCity = resultSet.getString("teamCity");
                 int id = resultSet.getInt("id");
                 int numberOfPlayers = resultSet.getInt("numberOfPlayers");
@@ -182,11 +176,11 @@ public class DataLayer implements AutoCloseable {
         }
         return teamList;
     }
-
+    //Gets the id of a team by name, for logging purposes
     public int getTeamIDByNameLog (String teamName){
         int id = 0;
         try {
-            String sql = "SELECT id FROM team WHERE teamName='" + teamName + "';";
+            String sql = "SELECT id FROM team WHERE name='" + teamName + "';";
 
             Statement statement = connection.createStatement();
 
@@ -202,7 +196,7 @@ public class DataLayer implements AutoCloseable {
 
         return id;
     }
-
+    //Adds the log to the database
     public void addLogToDB (MatchEventLog log){
         try {
             String sql = "INSERT INTO MatchEventLog (matchtime, teamID, matchID, eventType) VALUES (?, ?, ?, ?);";
@@ -223,7 +217,7 @@ public class DataLayer implements AutoCloseable {
         }
 
     }
-
+    //Updates teh status of a match to finished, after it has been played
     public void updateStatusToFinished ( int id){
         try {
             String sql = "UPDATE Game SET finished = ? WHERE id = " + id;
@@ -240,7 +234,7 @@ public class DataLayer implements AutoCloseable {
             System.out.println("Connection to database failed.");
         }
     }
-
+    //Updates the score of the teams after the game has been played
     public void updateTeamScore ( int gameID, String teamScore,int scoreAmt){
         try {
             String sql = "UPDATE Game SET " + teamScore + " = ? WHERE id = " + gameID;
@@ -257,18 +251,18 @@ public class DataLayer implements AutoCloseable {
             System.out.println("Connection to database failed.");
         }
     }
-
+    //Gets the name of a team, by id
     public String getTeamNameByID ( int id){
 
         try {
-            String sql = "SELECT teamName FROM team WHERE id=" + id;
+            String sql = "SELECT name FROM team WHERE id=" + id;
 
             Statement statement = connection.createStatement();
 
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                String name = resultSet.getString("teamName");
+                String name = resultSet.getString("name");
                 return name;
             }
 
@@ -278,7 +272,7 @@ public class DataLayer implements AutoCloseable {
         }
         return "name not found";
     }
-
+    //Inserts the created game into the database
     public void insertGameIntoDB (Game game){
         try {
             String sql = "INSERT INTO Game (homeTeamID, homeScore, awayTeamID, awayScore, matchDate, finished) VALUES (?, ?, ?, ?, ?, ?)";
@@ -299,7 +293,7 @@ public class DataLayer implements AutoCloseable {
         }
     }
 
-
+    //This method is used to see all the finished games
     public ArrayList<Game> selectAllFinishedGames () {
         try {
             ArrayList<Game> games = new ArrayList<>();
@@ -338,6 +332,7 @@ public class DataLayer implements AutoCloseable {
         }
     }
 
+    //This method is used to see all the unfinished games
     public ArrayList<Game> selectAllUnFinishedGames () {
         try {
             ArrayList<Game> games = new ArrayList<>();
@@ -376,15 +371,17 @@ public class DataLayer implements AutoCloseable {
         }
     }
 
+    //This is used to see the event log of a specific team in a specific match
     public ArrayList<MatchEventLog> getTeamEventLog ( int matchID, int id){
-        return getMatchEventLogWhereClause(matchID, id);
+        return getMatchEventLogByMatchIDandTeamID(matchID, id);
     }
 
-    private ArrayList<MatchEventLog> getMatchEventLogWhereClause ( int matchWhereClause, int whereClause){
+    //This method helps other methods to search in the database and get a specific match and specific team
+    private ArrayList<MatchEventLog> getMatchEventLogByMatchIDandTeamID(int matchID, int teamID){
         try {
             ArrayList<MatchEventLog> eventLogs = new ArrayList<>();
 
-            String sql = "Select * From MatchEventLog WHERE matchID=" + matchWhereClause + " And teamID=" + whereClause;
+            String sql = "Select * From MatchEventLog WHERE matchID=" + matchID + " And teamID=" + teamID;
 
             Statement statement = connection.createStatement();
 
@@ -392,13 +389,13 @@ public class DataLayer implements AutoCloseable {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                int teamID = resultSet.getInt("teamID");
-                int matchID = resultSet.getInt("matchID");
+                int resTeamID = resultSet.getInt("teamID");
+                int resMatchID = resultSet.getInt("matchID");
                 String eventTypes = resultSet.getString("eventtype");
                 EventType eventType = EventType.valueOf(eventTypes);
                 int matchTime = resultSet.getInt("matchtime");
 
-                MatchEventLog matchEventLog = new MatchEventLog(id, teamID, matchID, eventType, matchTime);
+                MatchEventLog matchEventLog = new MatchEventLog(id, resTeamID, resMatchID, eventType, matchTime);
 
                 eventLogs.add(matchEventLog);
             }
@@ -410,6 +407,16 @@ public class DataLayer implements AutoCloseable {
             System.out.println(e.getMessage());
 
             return null;
+        }
+    }
+
+
+    //Closes the connection
+    @Override
+    public void close() throws Exception {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+            System.out.println("Database connection closed");
         }
     }
 }

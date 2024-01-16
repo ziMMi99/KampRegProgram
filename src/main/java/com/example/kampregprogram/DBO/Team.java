@@ -1,4 +1,4 @@
-package com.example.kampregprogram;
+package com.example.kampregprogram.DBO;
 
 public class Team {
     private int id;

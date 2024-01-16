@@ -4,10 +4,12 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.kampregprogram.KampOpretterController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.kampregprogram.controllers.GameCreateController">
    <children>
       <DatePicker fx:id="GameDate" layoutX="313.0" layoutY="322.0" />
       <ChoiceBox fx:id="HomeTeamChoiceBox" layoutX="163.0" layoutY="170.0" prefWidth="150.0" />
@@ -27,5 +29,10 @@
             <Font size="19.0" />
          </font>
       </Button>
+      <MenuButton fx:id="menuButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Menu">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </MenuButton>
    </children>
 </AnchorPane>

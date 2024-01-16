@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.kampregprogram.CreateTeamController">
+            fx:controller="com.example.kampregprogram.controllers.CreateTeamController">
     <children>
         <VBox alignment="TOP_CENTER" layoutX="190.0" layoutY="75.0" prefHeight="511.0" prefWidth="421.0">
             <children>

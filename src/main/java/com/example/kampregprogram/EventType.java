@@ -3,9 +3,5 @@ package com.example.kampregprogram;
 public enum EventType {
     goal,
     freeThrow,
-    suspension,
-    win,
-    lose,
-    pauseStart,
-    pauseEnd
+    suspension
 }
