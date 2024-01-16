@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.kampregprogram.GameRecorderController">
+   <children>
+      <Label fx:id="stopWatchFXID" layoutX="344.0" layoutY="35.0" text="00:00">
+         <font>
+            <Font size="47.0" />
+         </font></Label>
+      <Button layoutX="336.0" layoutY="498.0" mnemonicParsing="false" onAction="#startTimer" prefHeight="58.0" prefWidth="129.0" text="Start match">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="201.0" layoutY="498.0" mnemonicParsing="false" onAction="#pauseTimer" prefHeight="58.0" prefWidth="129.0" text="Pause">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="474.0" layoutY="498.0" mnemonicParsing="false" onAction="#resumeTimer" prefHeight="58.0" prefWidth="129.0" text="Resume">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="HomeTeamGoalBtn" layoutX="63.0" layoutY="148.0" mnemonicParsing="false" onAction="#eventLogGoalHome" prefHeight="58.0" prefWidth="129.0" text="Mål">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="HomeTeamSuspBtn" layoutX="63.0" layoutY="235.0" mnemonicParsing="false" onAction="#eventLogSuspensionHome" prefHeight="58.0" prefWidth="129.0" text="Udvisning">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="HomeTeamFreeThrowBtn" layoutX="63.0" layoutY="315.0" mnemonicParsing="false" onAction="#eventLogFreeThrowHome" prefHeight="58.0" prefWidth="129.0" text="Straffekast">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="AwayTeamGoalBtn" layoutX="619.0" layoutY="148.0" mnemonicParsing="false" onAction="#eventLogGoalAway" prefHeight="58.0" prefWidth="129.0" text="Mål">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="AwayTeamSuspBtn" layoutX="619.0" layoutY="235.0" mnemonicParsing="false" onAction="#eventLogSuspensionAway" prefHeight="58.0" prefWidth="129.0" text="Udvisning">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="AwayTeamFreeThrowBtn" layoutX="619.0" layoutY="315.0" mnemonicParsing="false" onAction="#eventLogFreeThrowAway" prefHeight="58.0" prefWidth="129.0" text="Straffekast">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Label fx:id="HomeTeamLabel" layoutX="55.0" layoutY="50.0" text="Home Team">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="AwayTeamLabel" layoutX="615.0" layoutY="50.0" text="Away Team">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="HomeTeamScoreLabel" layoutX="260.0" layoutY="50.0" text="0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Label fx:id="AwayTeamScoreLabel" layoutX="533.0" layoutY="50.0" text="0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
