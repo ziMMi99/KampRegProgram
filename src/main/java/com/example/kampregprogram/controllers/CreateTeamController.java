@@ -32,6 +32,7 @@ public class CreateTeamController {
         try {
             //Gets the values typed into the fields
             if (teamCityTextField.getText().isBlank() || teamNameTextField.getText().isBlank() || numberOfPlayersTextField.getText().isBlank()) {
+                // Alert if fields not filled
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setContentText("Alle felter skal være udfyldt");

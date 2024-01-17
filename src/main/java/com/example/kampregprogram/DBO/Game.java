@@ -13,6 +13,7 @@ public class Game {
         this.awayTeamID = awayTeamID;
         this.awayScore = awayScore;
         this.matchDate = matchDate;
+        this.finished = finished;
     }
     public Game (int homeTeamID, int homeScore, int awayTeamID, int awayScore, Date matchDate, int finished) {
         this.homeTeamID = homeTeamID;
@@ -20,6 +21,7 @@ public class Game {
         this.awayTeamID = awayTeamID;
         this.awayScore = awayScore;
         this.matchDate = matchDate;
+        this.finished = finished;
 
     }
     public Game(Game game){
