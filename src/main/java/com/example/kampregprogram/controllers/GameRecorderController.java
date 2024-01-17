@@ -26,41 +26,41 @@ public class GameRecorderController implements Initializable {
 
     //Event knapper
     @FXML
-    Button finishBtn;
+    private Button finishBtn;
     @FXML
-    Button HomeTeamGoalBtn;
+    private Button HomeTeamGoalBtn;
     @FXML
-    Button HomeTeamSuspBtn;
+    private Button HomeTeamSuspBtn;
     @FXML
-    Button HomeTeamFreeThrowBtn;
+    private Button HomeTeamFreeThrowBtn;
     @FXML
-    Button AwayTeamGoalBtn;
+    private Button AwayTeamGoalBtn;
     @FXML
-    Button AwayTeamSuspBtn;
+    private Button AwayTeamSuspBtn;
     @FXML
-    Button AwayTeamFreeThrowBtn;
+    private Button AwayTeamFreeThrowBtn;
     @FXML
-    Label HomeTeamLabel;
+    private Label HomeTeamLabel;
     @FXML
-    Label AwayTeamLabel;
+    private Label AwayTeamLabel;
     @FXML
-    Label AwayTeamScoreLabel;
+    private Label AwayTeamScoreLabel;
     @FXML
-    Label HomeTeamScoreLabel;
+    private Label HomeTeamScoreLabel;
     @FXML
-    Label stopWatchFXID;
+    private Label stopWatchFXID;
 
     //tracks the match time
-    int seconds = 0;
+    private int seconds = 0;
     //length of match in seconds
-    int matchLength = 3600;
+    private int matchLength = 3600;
     //how many milliseconds a second takes in the clock
-    int timeSpeed = 15;
-    boolean timerStarted = false;
-    Timer myRepeatingTimer = new Timer();
-    DataLayer data = new DataLayer();
+    private int timeSpeed = 15;
+    private boolean timerStarted = false;
+    private Timer myRepeatingTimer = new Timer();
+    private DataLayer data = new DataLayer();
     //Retrives which game was selected in the previous page
-    Game RecordedGame = GameChoiceController.getSelectedGame();
+    private Game RecordedGame = GameChoiceController.getSelectedGame();
 
     boolean isPaused = false;
 

@@ -23,12 +23,12 @@ import java.util.ResourceBundle;
 public class GameChoiceController implements Initializable {
 
     @FXML
-    MenuButton menuButton;
+    private MenuButton menuButton;
     @FXML
-    ListView<Game> unFinishedGames = new ListView<>();
-    DataLayer data = new DataLayer();
+    private ListView<Game> unFinishedGames = new ListView<>();
+    private DataLayer data = new DataLayer();
     //An arrayList of all games in the database which have not been played
-    ArrayList<Game> gameList = data.selectAllUnFinishedGames();
+    private ArrayList<Game> gameList = data.selectAllUnFinishedGames();
     static Game selectedGame;
 
     //loads up the game recorder, when the "start kamp" button is pressed
