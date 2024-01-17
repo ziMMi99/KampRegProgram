@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import com.example.kampregprogram.data.DataLayer;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class CreateTeamController {
@@ -30,6 +31,7 @@ public class CreateTeamController {
     @FXML
     private void handleCreateButtonClick() {
         try {
+            DataLayer data = new DataLayer();
             //Gets the values typed into the fields
             if (teamCityTextField.getText().isBlank() || teamNameTextField.getText().isBlank() || numberOfPlayersTextField.getText().isBlank()) {
                 // Alert if fields not filled
@@ -44,6 +46,24 @@ public class CreateTeamController {
                 }
                 return;
             }
+
+            ArrayList<Team> teamList = data.getTeamsForLog();
+
+            for (Team team : teamList) {
+                if (teamNameTextField.getText().equals(team.getName())) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Et hold findes allerede med dette navn");
+                    Optional<ButtonType> result = alert.showAndWait();
+
+                    if (result.isEmpty()) {
+                        System.out.println("Alert closed");
+                    } else if (result.get() == ButtonType.OK) {
+                    }
+                    return;
+                }
+            }
+
             String name = teamNameTextField.getText();
             int numberOfPlayers = Integer.parseInt(numberOfPlayersTextField.getText());
             String teamCity = teamCityTextField.getText();
