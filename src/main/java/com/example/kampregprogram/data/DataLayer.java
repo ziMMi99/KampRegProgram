@@ -489,6 +489,7 @@ public class DataLayer implements AutoCloseable {
                 //Same procedure as before, just with some other information
                 String eventLogLine = String.format("%s,%s,%s,%s,%s", id, matchTime, teamID, matchID, eventType);
                 fileWriter.write(eventLogLine);
+                fileWriter.newLine();
             }
 
             //close the statement, and the fileWriter
