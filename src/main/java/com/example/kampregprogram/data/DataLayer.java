@@ -6,7 +6,9 @@ import com.example.kampregprogram.DBO.MatchEventLog;
 
 import com.example.kampregprogram.DBO.Team;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class DataLayer implements AutoCloseable {
         loadJdbcDriver();
         openConnection("MatchRegProgram");
     }
-    //Loads the JDBC driver.'
+    //Loads the JDBC driver.
     private boolean loadJdbcDriver() {
         try {
             System.out.println("Loading JDBC driver...");
@@ -35,7 +37,7 @@ public class DataLayer implements AutoCloseable {
             return false;
         }
     }
-    //Opens a connection the the database
+    //Opens a connection to the database
     private boolean openConnection(String databaseName) {
         try {
             String connectionString =
@@ -63,7 +65,6 @@ public class DataLayer implements AutoCloseable {
             return false;
         }
     }
-
     //Updates the points of the team. Which is used when a game is finished.
     public void updatePoints(int points, int teamID) {
         try {
@@ -135,7 +136,6 @@ public class DataLayer implements AutoCloseable {
 
         return teams;
     }
-
     //Updates the team, with the team instance parameter
     public void updateTeam (Team team){
         try {
@@ -157,8 +157,6 @@ public class DataLayer implements AutoCloseable {
             e.printStackTrace();
         }
     }
-
-
     //Gets all teams for logging purposes
     public ArrayList<Team> getTeamsForLog () {
         ArrayList<Team> teamList = new ArrayList<>();
@@ -428,7 +426,7 @@ public class DataLayer implements AutoCloseable {
 
             return eventLogs;
         } catch (SQLException e) {
-            System.out.println("Error: Cold not get Game");
+            System.out.println("Error: Could not get Game");
             System.out.println(e.getMessage());
 
             return null;
@@ -461,20 +459,20 @@ public class DataLayer implements AutoCloseable {
             while (resultSetGame.next()) {
                 int id = resultSetGame.getInt("id");
                 int homeTeamID = resultSetGame.getInt("homeTeamID");
-                int homeScore = resultSetGame.getInt("awayTeamID");
+                int homeScore = resultSetGame.getInt("homeScore");
+                int awayTeamID = resultSetGame.getInt("awayTeamID");
                 int awayScore = resultSetGame.getInt("awayScore");
                 Date matchDate = resultSetGame.getDate("matchDate");
                 int finished = resultSetGame.getInt("finished");
                 //A fancy way to make a string. %s is a placeholder for text. All it does is make a string
                 //and fill the "%s" placeholders with the values after. It's an alternative to string concatenation
-                String gameline = String.format("%s,%s,%s,%s,%s,%s", id, homeTeamID, homeScore, awayScore, matchDate, finished);
+                String gameline = String.format("%s,%s,%s,%s,%s,%s,%s", id, homeTeamID, homeScore, awayTeamID, awayScore, matchDate, finished);
                 //Write the line that just got made
                 fileWriter.write(gameline);
                 fileWriter.newLine();
             }
 
             //makes a header for the MatchLogEvent data
-            fileWriter.newLine();
             fileWriter.write("EventID, MatchTime, TeamID, MatchID, EventType");
             fileWriter.newLine();
             //execute the second sql statement after the first while loop. As descriped above
@@ -490,7 +488,6 @@ public class DataLayer implements AutoCloseable {
 
                 //Same procedure as before, just with some other information
                 String eventLogLine = String.format("%s,%s,%s,%s,%s", id, matchTime, teamID, matchID, eventType);
-                fileWriter.newLine();
                 fileWriter.write(eventLogLine);
             }
 
@@ -541,7 +538,60 @@ public class DataLayer implements AutoCloseable {
         }
 
     }
+    //Imports the String array parameter into the database
+    public int insertGameReportImport(String[] reportGameData) {
+        String sql = "INSERT INTO Game (homeTeamID, homeScore, awayTeamID, awayScore, matchDate, finished) VALUES (?, ?, ?, ?, ?, ?)";
+        //Needed to store variable
+        int generatedID = 0;
 
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            //Goes through the "reportGameDate" array, and converts the values into their respective datatype
+            for (int i = 0; i < reportGameData.length; i++) {
+                //I know that the date of the match will always be in the fourth index
+                if (i == 4) {
+                    statement.setDate(i + 1, Date.valueOf(reportGameData[i]));
+                } else {
+                    statement.setInt(i + 1, Integer.parseInt(reportGameData[i]));
+                }
+            }
+            //Now I want to get the auto generated id, that gets assigned to the newly imported game
+            int affectedRows = statement.executeUpdate();
+            //Checks if the insertion into the database succeeds
+            if (affectedRows > 0) {
+                //Get the generated id
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    //Assign the generated id to a variable
+                    generatedID = generatedKeys.getInt(1);
+                    System.out.println("Inserted with ID: " + generatedID);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //Return the id, for use in the next method
+        return generatedID;
+    }
+    //This method takes the generated id, from the last method
+    public void insertEventImport(int matchID, String[] reportEventData) {
+        String sql = "INSERT INTO MatchEventLog (matchtime, teamID, matchID, eventtype) VALUES (?, ?, ?, ?)";
+
+        try {
+            //Set all the data to the correct data from the "reportEventData" array
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, Integer.parseInt(reportEventData[0]));
+            statement.setInt(2, Integer.parseInt(reportEventData[1]));
+            //assign the third variable in the sql statement, to match the matchID parameter.
+            //matchID = generatedID from method before
+            statement.setInt(3, matchID);
+            statement.setString(4, reportEventData[2]);
+            //Execute the update
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     //Closes the connection
     @Override
     public void close() throws Exception {

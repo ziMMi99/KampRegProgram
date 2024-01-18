@@ -54,9 +54,10 @@ public class GameReportController implements Initializable {
 
     //This changes the name of the labels to the info of the selected game
     public void setLabel(int currentHomeTeamID, int currentHomeScore, int currentAwayTeamID, int currentAwayScore, Date currentMatchDate){
-        homeTeamID.setText("Home Team ID: " + currentHomeTeamID);
+        DataLayer data = new DataLayer();
+        homeTeamID.setText("Home Team: " + data.getTeamNameByID(currentHomeTeamID));
         homeScore.setText("Home Team Score: " + currentHomeScore);
-        awayTeamID.setText("Away Team ID: " + currentAwayTeamID);
+        awayTeamID.setText("Away Team: " + data.getTeamNameByID(currentAwayTeamID));
         awayScore.setText("Away Team Score: " + currentAwayScore);
         matchDate.setText("Match Date: " + currentMatchDate);
     }

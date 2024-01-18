@@ -210,7 +210,6 @@ public class TeamOverviewController {
 
     public void exportLeaugeStandigsToCsv() {
         data = new DataLayer();
-
         data.exportLeagueStandingCsv();
     }
 }

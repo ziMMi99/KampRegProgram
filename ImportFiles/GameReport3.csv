@@ -1,0 +1,23 @@
+homeTeamID, homeScore, awayTeamID, awayScore, matchDate, finished
+1,69,2,69,2024-02-1,1
+MatchTime, TeamID, EventType
+50,1,goal
+60,1,goal
+113,2,goal
+124,2,goal
+159,1,goal
+187,2,goal
+215,1,goal
+226,1,goal
+252,2,goal
+263,2,goal
+273,2,goal
+298,2,goal
+316,2,goal
+329,2,goal
+340,2,goal
+369,1,goal
+379,1,goal
+391,1,goal
+399,1,goal
+424,1,goal
